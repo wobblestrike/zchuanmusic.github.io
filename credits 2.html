@@ -1,0 +1,43 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+  	<title>Z.ChUAN Portfolio</title>
+  	<meta charset="utf-8" />
+  	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+  	<meta name="description" content="" />
+  	<meta name="keywords" content="" />
+  	<link rel="stylesheet" href="assets/css/credits 2.css" />
+  </head>
+	<body>
+    <form onsubmit="return app.carousel.addAlbum(event);">
+  <fieldset>
+    <legend>Add Album</legend>
+    <div class='form-group'> <label for='artist'>Artist</label>
+      <input type='text' name='artist' id='artist' size='20' placeholder='Beastie Boys'>
+    </div>
+    <div class="form-group">
+      <label for='album'>Album</label>
+      <input type='text' name='album' id='album' size=20 placeholder="Paul's Boutique">
+      <button onclick='return app.carousel.formAlbum(event);' id='addAlbum'>Add Album</button>
+    </div>
+    <div class='note'>Click to open album for more info</div> <a style="float:right;color:#ff0;" target="_blank" href="https://codepen.io/ChristopherRobison/full/BavdMbj">Full Page View</a>
+  </fieldset>
+</form>
+  <main>
+    <button class="nav" id="prevBtn" onclick="return app.carousel.previous()">▸</button>
+    <div id="carousel" class="carousel">
+
+    </div>
+    <button onclick="return app.carousel.next()" class="nav" id="nextBtn">▸</button>
+
+    <div class="buttons">
+      <button id="prev">Prev</button>
+      <button id="next">Next</button>
+    </div>
+    <!-- <script src='script.js'></script> -->
+  </main>
+
+		  <script src="assets/js/credits 2.js"></script>
+  </body>
+
+</html>
