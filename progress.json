@@ -1,13 +1,6 @@
 {
   "selectedId": "mainquest-core",
-  "completed": {
-    "mainquest-core": true,
-    "q01-lore-foundation": true,
-    "q02-sound-construction": true,
-    "q03-visual-biome": true,
-    "q04-signal-transmission": true,
-    "q05-emotion-shelter": true
-  },
+  "completed": {},
   "showcase": {
     "mainquest-core": {
       "text": "",
@@ -19,13 +12,13 @@
   "journeyChecks": {
     "c1": [
       true,
-      true,
-      true
+      false,
+      false
     ],
     "c2": [
-      true,
-      true,
-      true
+      false,
+      false,
+      false
     ],
     "c3": [
       false,

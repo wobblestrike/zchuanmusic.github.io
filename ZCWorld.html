@@ -341,7 +341,7 @@
         </div>
       </div>
       <div class="btns">
-        <button id="resetBtn" title="Reset">🧹 重置</button>
+        <button id="resetBtn" title="Reset">✨看最新進度✨</button>
       </div>
     </header>
 
@@ -410,7 +410,6 @@
         <span class="badge">Hazard Orange</span>
         <span class="badge">Bioluminescent Purple</span>
         <span class="badge">Mist White</span>
-        <button id="exportBtn">⬇ 匯出 progress.json</button>
       </div>
     </footer>
   </div>
@@ -430,91 +429,7 @@
   </div>
 
 <script>
-  /* ===============================
-   Progress JSON Read-Only System
-   =============================== */
-
   const STORAGE_KEY = "zc_season_2026_html_v3";
-  let READ_ONLY = false;
-
-  /* 嘗試載入 progress.json（GitHub Pages 用） */
-  async function loadExternalProgress(){
-    try{
-      const res = await fetch("progress.json", { cache: "no-store" });
-      if(!res.ok) throw new Error("no external json");
-      const external = await res.json();
-      Object.assign(state, external);
-      READ_ONLY = true;
-      console.log("🔒 Read-only mode (progress.json loaded)");
-    }catch(e){
-      READ_ONLY = false;
-      console.log("🛠 Local edit mode (no progress.json)");
-    }
-  }
-
-  /* 原本的 localStorage load */
-  function loadLocal(){
-    try{
-      const raw = localStorage.getItem(STORAGE_KEY);
-      if(!raw) return;
-      const s = JSON.parse(raw);
-      Object.assign(state, s || {});
-    }catch{}
-  }
-
-  /* 改寫後的 load */
-  async function load(){
-    await loadExternalProgress();
-    if(!READ_ONLY){
-      loadLocal();
-    }
-  }
-
-  /* 改寫後的 save */
-  function save(){
-    if(READ_ONLY) return;
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-  }
-
-  /* 鎖定所有互動（唯讀） */
-  function applyReadOnly(){
-    document.querySelectorAll("input, textarea, button").forEach(el=>{
-      if(el.id === "exportBtn" || el.id === "resetBtn") return;
-      el.disabled = true;
-    });
-
-    document.querySelectorAll(".quest, .goal").forEach(el=>{
-      el.style.pointerEvents = "none";
-      el.style.opacity = "0.6";
-    });
-  }
-
-  /* 匯出 progress.json */
-  function setupExport(){
-    const btn = document.getElementById("exportBtn");
-    if(!btn) return;
-
-    btn.addEventListener("click", ()=>{
-      const blob = new Blob(
-        [JSON.stringify(state, null, 2)],
-        { type: "application/json" }
-      );
-      const a = document.createElement("a");
-      a.href = URL.createObjectURL(blob);
-      a.download = "progress.json";
-      a.click();
-    });
-  }
-
-  /* 初始化流程（取代你原本最下面的 load/render） */
-  (async function init(){
-    await load();
-    JOURNEY.forEach(ch=>ensureJourneyChapter(ch.id, ch.goals.length));
-    renderAll();
-    setupExport();
-    if(READ_ONLY) applyReadOnly();
-  })();
-
 
   const PRESET_REWARDS = [
     "Hazard Orange Glow Badge",
@@ -996,6 +911,86 @@
   load();
   JOURNEY.forEach(ch=>ensureJourneyChapter(ch.id, ch.goals.length));
   renderAll();
-</script>
-</body>
-</html>
+
+
+  let READ_ONLY = false;
+
+  /* =================================================
+     嘗試讀取 progress.json（GitHub Pages）
+     ================================================= */
+  async function loadProgressJSON(){
+    try{
+      const res = await fetch("progress.json",{cache:"no-store"});
+      if(!res.ok) throw new Error();
+      const data = await res.json();
+      Object.assign(state, data);
+      READ_ONLY = true;
+      document.getElementById("roBadge").style.display="block";
+    }catch{
+      READ_ONLY = false;
+    }
+  }
+
+  /* =================================================
+     LocalStorage（只在非唯讀）
+     ================================================= */
+  function loadLocal(){
+    if(READ_ONLY) return;
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if(raw){
+      try{ Object.assign(state, JSON.parse(raw)); }catch{}
+    }
+  }
+  function saveLocal(){
+    if(READ_ONLY) return;
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+  }
+
+  /* =================================================
+     匯出 progress.json
+     ================================================= */
+  document.getElementById("exportBtn").onclick=()=>{
+    const blob = new Blob(
+      [JSON.stringify(state,null,2)],
+      {type:"application/json"}
+    );
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = "progress.json";
+    a.click();
+    URL.revokeObjectURL(a.href);
+  };
+
+  /* =================================================
+     鎖定所有互動
+     ================================================= */
+  function lockUI(){
+    document.querySelectorAll("input,textarea,button").forEach(el=>{
+      if(el.id==="exportBtn") return;
+      el.disabled=true;
+    });
+    document.querySelectorAll(".quest,.goal").forEach(el=>{
+      el.style.pointerEvents="none";
+      el.style.opacity="0.6";
+    });
+  }
+
+  /* =================================================
+     初始化（順序很重要）
+     ================================================= */
+  (async function init(){
+    await loadProgressJSON();
+    loadLocal();
+
+    // ⚠️ 這裡呼叫你原本 v1.2 的 renderAll()
+    if(typeof renderAll==="function"){
+      renderAll();
+    }
+
+    if(READ_ONLY){
+      lockUI();
+    }
+  })();
+  </script>
+  </body>
+  </html>
