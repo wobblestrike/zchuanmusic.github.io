@@ -3,7 +3,10 @@
   "completed": {
     "mainquest-core": true,
     "q01-lore-foundation": true,
-    "q02-sound-construction": true
+    "q02-sound-construction": true,
+    "q03-visual-biome": true,
+    "q04-signal-transmission": true,
+    "q05-emotion-shelter": true
   },
   "showcase": {
     "mainquest-core": {
@@ -15,14 +18,14 @@
   },
   "journeyChecks": {
     "c1": [
-      false,
-      false,
-      false
+      true,
+      true,
+      true
     ],
     "c2": [
-      false,
-      false,
-      false
+      true,
+      true,
+      true
     ],
     "c3": [
       false,
