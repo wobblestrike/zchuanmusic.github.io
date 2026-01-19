@@ -1,0 +1,60 @@
+{
+  "selectedId": "mainquest-core",
+  "completed": {
+    "mainquest-core": true,
+    "q01-lore-foundation": true,
+    "q02-sound-construction": true
+  },
+  "showcase": {
+    "mainquest-core": {
+      "text": "",
+      "audioUrl": "",
+      "videoUrl": "",
+      "links": [
+        {
+          "name": "234",
+          "url": "234"
+        }
+      ]
+    }
+  },
+  "journeyChecks": {
+    "c1": [
+      true,
+      true,
+      false
+    ],
+    "c2": [
+      false,
+      false,
+      false
+    ],
+    "c3": [
+      false,
+      false,
+      false
+    ],
+    "c4": [
+      false,
+      false,
+      false
+    ],
+    "c5": [
+      false,
+      false,
+      false
+    ],
+    "c6": [
+      false,
+      false,
+      false
+    ],
+    "c7": [
+      false,
+      false,
+      false,
+      false
+    ]
+  },
+  "chapterLootHistory": {}
+}
