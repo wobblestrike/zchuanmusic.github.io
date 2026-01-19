@@ -10,24 +10,19 @@
       "text": "",
       "audioUrl": "",
       "videoUrl": "",
-      "links": [
-        {
-          "name": "234",
-          "url": "234"
-        }
-      ]
+      "links": []
     }
   },
   "journeyChecks": {
     "c1": [
-      true,
-      true,
+      false,
+      false,
       false
     ],
     "c2": [
-      true,
-      true,
-      true
+      false,
+      false,
+      false
     ],
     "c3": [
       false,
