@@ -1,0 +1,1112 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DotGothic16&display=swap" rel="stylesheet">
+
+  <title>ZC World</title>
+  <style>
+    :root{
+      --bg0:#000;
+      --bg1:#050507;
+      --card:#0b0b10cc;
+      --border:#24242c;
+      --text:#f2f2f5;
+      --muted:#a7a7b3;
+      --soft:#cfcfda;
+      --shadow: 0 10px 30px rgba(0,0,0,.45);
+      --r:18px;
+      --ok:#c8ffd6;
+      --disabled:#7a7a86;
+
+      /* Section identity */
+      --mainA: rgba(255,255,255,.10);
+      --mainB: rgba(255,255,255,.18);
+      --sideA: rgba(180,120,255,.10);
+      --sideB: rgba(180,120,255,.18);
+      --hiddenA: rgba(255,190,110,.10);
+      --hiddenB: rgba(255,190,110,.18);
+    }
+    *{box-sizing:border-box}
+    @import url('https://fonts.googleapis.com');
+    body{
+      margin:0;
+      font-family:ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+      color:var(--text);
+      background: radial-gradient(1200px 600px at 30% 10%, #1b1b2400, #000),
+                  linear-gradient(180deg, var(--bg0), var(--bg1), var(--bg0));
+      min-height:100vh;
+      letter-spacing: 0.05em;
+    }
+    a{color:var(--text)}
+    /*.wrap{max-width:1280px; margin:0 auto; padding:24px 14px 56px}*/
+    .wrap{
+      width:100vw;
+      min-height:100vh;
+      margin:0;
+      padding:24px 32px;
+      background-image: url("images/zcworld/bg2.jpg");
+      background-size: contain;
+      background-repeat: no-repeat; /* 阻止圖片重複 */
+    }
+    header{
+      display:flex; gap:16px; justify-content:space-between; align-items:flex-end; flex-wrap:wrap;
+      margin-bottom:14px;
+    }
+    .title h1{margin:0; font-size: clamp(20px, 2.2vw, 26px); letter-spacing:-.2px}
+    .title .sub{
+      margin-top:8px;
+      color:var(--muted);
+      font-size: clamp(12px, 1.2vw, 13px);
+      max-width:860px;
+      line-height:1.3
+    }
+    .btns{display:flex; gap:10px}
+    button{
+      border:1px solid var(--border);
+      background: rgba(20,20,28,.5);
+      color:var(--text);
+      padding:10px 12px;
+      border-radius:14px;
+      cursor:pointer;
+      transition:.15s ease;
+      user-select:none;
+      font-size: 13px;
+    }
+    button:hover{background: rgba(30,30,42,.6)}
+    button:active{transform: translateY(1px)}
+    button:disabled{
+      cursor:not-allowed;
+      opacity:.5;
+      color:var(--disabled);
+    }
+
+    /* RWD layout: desktop 3, tablet 2, mobile 1 */
+    .grid3{
+      display:grid;
+      grid-template-columns: 1.05fr 1fr 1.05fr;
+      gap:14px;
+      margin-top:14px;
+      align-items:start;
+    }
+    @media (max-width: 1080px){
+      .grid3{grid-template-columns: 1fr 1fr;}
+      .col-right{grid-column: 1 / -1;} /* Season Journey full width on tablet */
+    }
+    @media (max-width: 760px){
+      .grid3{grid-template-columns: 1fr;}
+      .col-right{grid-column: auto;}
+      button{width:auto}
+    }
+
+    .card{
+      border:1px solid var(--border);
+      background: var(--card);
+      border-radius: var(--r);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+    .card .head{
+      display:flex; justify-content:space-between; align-items:center; gap:10px;
+      padding:14px 16px;
+      border-bottom:1px solid var(--border);
+    }
+    .card .head .h{
+      font-weight:650;
+      font-size:13px;
+    }
+    .badge{
+      display:inline-flex; align-items:center; gap:6px;
+      border:1px solid var(--border);
+      background: rgba(10,10,16,.5);
+      padding:2px 8px;
+      border-radius:999px;
+      font-size:11px;
+      color:#cfcfda;
+      white-space:nowrap;
+    }
+    .muted{color:var(--muted); font-size:12px; margin-bottom: 15px;}
+    .small{font-size:12px}
+    .card .body{padding:16px}
+
+    .row{display:flex; justify-content:space-between; gap:10px; align-items:center;}
+    .progress{
+      height:8px;
+      background: rgba(255,255,255,.08);
+      border-radius:999px;
+      overflow:hidden;
+      margin-top:8px;
+      border:1px solid rgba(255,255,255,.06);
+    }
+    .progress > div{
+      height:100%;
+      width:0%;
+      background: rgba(255,255,255,.75);
+      transition: width .25s ease;
+    }
+
+    /* Quest sections (more distinct) */
+    .sectionBlock{
+      border:1px solid var(--border);
+      border-radius:16px;
+      overflow:hidden;
+      margin-top:14px;
+      background: rgba(0,0,0,.15);
+    }
+    .sectionHeader{
+      padding:10px 12px;
+      display:flex; align-items:center; justify-content:space-between; gap:10px;
+      border-bottom:1px solid rgba(255,255,255,.06);
+      font-size:14px;
+      font-weight:600;
+      letter-spacing:.2px;
+    }
+    .sectionHeader .hint{font-weight:500; color:var(--muted); font-size:12px;}
+    .hint2{font-weight:500; color:var(--muted); font-size:12px; padding:
+      30px 30px 20px 30px;}
+    .sectionHeader.main{background: linear-gradient(90deg, var(--mainA), transparent); border-left:3px solid var(--mainB);font-family: 'DotGothic16'; letter-spacing:.2px;}
+    .sectionHeader.side{background: linear-gradient(90deg, var(--sideA), transparent); border-left:3px solid var(--sideB);}
+    .sectionHeader.hidden{background: linear-gradient(90deg, var(--hiddenA), transparent); border-left:3px solid var(--hiddenB);}
+    
+    .sectionTitle{
+      font-size:20px;
+      font-family: 'DotGothic16'; 
+      font-weight:600;
+      letter-spacing:.8px;}
+    
+    .questList{display:flex; flex-direction:column; gap:10px; padding:12px;}
+    .quest{
+      width:100%;
+      border:1px solid var(--border);
+      background: rgba(10,10,14,.45);
+      border-radius: 16px;
+      padding:12px;
+      display:flex;
+      gap:12px;
+      align-items:flex-start;
+      cursor:pointer;
+      transition:.15s ease;
+      text-align:left;
+    }
+    .quest:hover{background: rgba(20,20,28,.55)}
+    .quest.active{border-color: rgba(255,255,255,.25); background: rgba(255,255,255,.06)}
+    .check{
+      width:40px; min-width:40px; height:40px;
+      display:grid; place-items:center;
+      border-radius:12px;
+      border:1px solid var(--border);
+      background: rgba(20,20,28,.35);
+      font-size:18px;
+      user-select:none;
+    }
+    .quest .meta{flex:1; min-width:0}
+    .quest .t{
+      font-weight:650; font-size:15px; line-height:1.5;
+      display:flex; flex-wrap:wrap; gap:8px; align-items:center;
+    }
+    .quest .d{
+      margin-top:6px;
+      color:var(--muted);
+      font-size:13px;
+      line-height:1.8;
+      display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;
+    }
+    .quest, .subtask{
+      font-size: 16px;
+      line-height: 1.5;
+    }
+
+
+    /* Showcase */
+    textarea, input{
+      width:100%;
+      border:1px solid var(--border);
+      background: rgba(0,0,0,.35);
+      color: var(--text);
+      border-radius: 14px;
+      padding:10px 12px;
+      outline:none;
+      font-size:13px;
+    }
+    textarea{min-height:120px; resize:vertical}
+    input:focus, textarea:focus{border-color: rgba(255,255,255,.25)}
+    label{display:block; font-size:15px; color:var(--muted); margin-bottom:8px}
+    .two{display:grid; grid-template-columns:1fr 1fr; gap:12px}
+    @media (max-width: 860px){ .two{grid-template-columns:1fr} }
+
+    audio, video{width:100%; border-radius:12px}
+    .mediaBox{
+      border:1px solid var(--border);
+      background: rgba(10,10,14,.4);
+      border-radius: 16px;
+      padding:12px;
+      margin-top:10px;
+      padding:30px 20px 30px 20px;
+    }
+    .mediaHead{
+      display:flex; align-items:center; gap:8px; justify-content:space-between;
+      margin-bottom:10px;
+    }
+    .truncate{max-width: 70%; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; color:var(--muted); font-size:15px}
+
+    /* External links list */
+    .linkRow{display:flex; gap:10px; align-items:center; margin-top:10px; flex-wrap:wrap}
+    .linkRow input{flex:1; min-width: 200px;}
+    .linkItem{
+      border:1px solid var(--border);
+      background: rgba(255,255,255,.04);
+      border-radius:14px;
+      padding:10px 12px;
+      margin-top:8px;
+      display:flex;
+      gap:10px;
+      align-items:center;
+      justify-content:space-between;
+    }
+    .linkItem .left{min-width:0; flex:1}
+    .linkItem .name{font-size:12px; font-weight:650}
+    .linkItem .url{
+      font-size:12px; color:var(--muted);
+      overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
+      max-width: 520px;
+    }
+    .miniBtn{
+      padding:8px 10px;
+      border-radius:12px;
+      font-size:12px;
+      white-space:nowrap;
+    }
+
+    /* Season Journey */
+    .chapter{
+      border:1px solid var(--border);
+      background: rgba(10,10,14,.4);
+      border-radius:16px;
+      padding:12px;
+      margin-top:10px;
+    }
+    .chapterTop{
+      display:flex; justify-content:space-between; align-items:flex-start; gap:10px;
+      flex-wrap:wrap;
+    }
+    .chapterTitle{font-weight:650; font-size:18px}
+    .goal{
+      display:flex; gap:10px; align-items:flex-start;
+      padding:8px 0;
+      border-bottom:1px dashed rgba(255,255,255,.06);
+    }
+    .goal:last-child{border-bottom:none}
+    .goal .gcheck{
+      width:26px; height:26px; border-radius:10px;
+      border:1px solid var(--border);
+      background: rgba(20,20,28,.35);
+      display:grid; place-items:center;
+      cursor:pointer;
+      user-select:none;
+      font-size:15px;
+      margin-top:1px;
+    }
+    .goal .gtext{flex:1; font-size:15px; color:var(--soft); line-height:2}
+    .goal.done .gtext{color: var(--ok)}
+    .chapterFoot{
+      display:flex; align-items:center; justify-content:space-between; gap:10px;
+      margin-top:10px;
+      flex-wrap:wrap;
+    }
+
+    /* Modal */
+    .modalBack{
+      position:fixed; inset:0;
+      background: rgba(0,0,0,.72);
+      display:none;
+      align-items:center; justify-content:center;
+      padding:16px;
+      z-index:50;
+    }
+    .modal{
+      width: min(680px, 100%);
+      border:1px solid var(--border);
+      background: #05050a;
+      border-radius: 18px;
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+    .modal .mhead{
+      padding:14px 16px;
+      border-bottom:1px solid var(--border);
+      display:flex; justify-content:space-between; align-items:center; gap:10px;
+    }
+    .modal .mbody{padding:16px}
+    .lootItem{
+      border:1px solid var(--border);
+      background: rgba(255,255,255,.04);
+      border-radius: 14px;
+      padding:12px 14px;
+      display:flex; justify-content:space-between; gap:10px; align-items:center;
+      margin-top:10px;
+      font-size:15px;
+    }
+    .stage{
+      max-width:1920px;   /* 比原本 1280 更有「世界尺度」 */
+      margin:0 auto;
+    }
+
+    footer{
+      margin-top:18px;
+      color: var(--muted);
+      font-size:15px;
+      display:flex; justify-content:space-between; gap:10px; flex-wrap:wrap;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+  <div class="stage">  
+    <header>
+      <div class="title">
+        <div class="muted">ZC World 2026</div>
+        <h1>World Under Construction : Taipei Low-Frequency</h1>
+        <div class="sub">
+          這不是起點，也不是終點，而是一座仍在運轉的城市邊緣。把情緒安置在節奏裡，讓世界持續被感知。
+        </div>
+      </div>
+      <div class="btns">
+        <a href="https://zchuanmusic.com/" target="_blank" rel="noopener noreferrer">
+          <button type="button">🌐 Z.ChUAN Official</button>
+        </a>
+        <button id="exportBtn">⬇ 匯出 progress.json</button>
+        <button id="resetBtn" title="Reset">✨看最新進度✨</button>
+      </div>
+    </header>
+
+    <div class="grid3">
+      <!-- LEFT -->
+      <div class="card">
+        <div class="head">
+          <div class="sectionTitle">任務列表｜Quest Board</div>
+          <div class="badge"> </div>
+        </div>
+        <div class="body">
+          <div class="row">
+            <div class="muted">完成度</div>
+            <div class="muted"><span id="doneCount">0</span>/<span id="questCount">0</span></div>
+          </div>
+          <div class="progress"><div id="questBar"></div></div>
+
+          <div class="sectionBlock">
+            <div class="sectionHeader main">
+              <div>🟠 主線任務｜世界觀建構</div>
+              <div class="hint">難度 ★☆☆｜世界初始化階段</div>
+            </div>
+            <div class="hint2">在系統正式運轉前，必須先定義世界的物理規則、聲音語言與視覺地貌。此任務完成後，ZCWorld 將進入可被感知的狀態。</div>
+            <div class="questList" id="main_world"></div>
+          </div>
+
+          <div class="sectionBlock">
+            <div class="sectionHeader main">
+              <div>🟠 主線任務｜EP發行</div>
+              <div class="hint">難度 ★★☆｜核心模組部署</div>
+            </div>
+            <div class="hint2">此任務將世界觀轉化為可被完整播放、重複驗證的聲音載體。 每一個 ID，都是世界的一個穩定節點。</div>
+            <div class="questList" id="main_ep"></div>
+          </div>
+
+          <div class="sectionBlock">
+            <div class="sectionHeader main">
+              <div>🟠 主線任務｜核心建設 </div>
+              <div class="hint">難度 ★★☆｜實體系統落地</div>
+            </div>
+            <div class="hint2">為確保世界可長期運轉，需建立穩定的實體創作與拍攝基礎設施。</div>
+            <div class="questList" id="main_build"></div>
+          </div>
+
+          <div class="sectionBlock">
+            <div class="sectionHeader main">
+              <div>🟠 主線任務｜低頻檔案館 </div>
+              <div class="hint">難度 ★☆☆｜資料封存與展示</div>
+            </div>
+            <div class="hint2">所有聲音行為都將被記錄。 此模組用於保存、回放與展示世界的運作狀態。</div>
+            <div class="questList" id="main_dj"></div>
+          </div>
+
+          <div class="sectionBlock">
+            <div class="sectionHeader main">
+              <div>🟠 主線任務｜世界探索</div>
+              <div class="hint">難度 ★★☆｜探索未知領域</div>
+            </div>
+            <div class="hint2">世界不應封閉。 此任務驗證 ZCWorld 的相容性與擴展能力。</div>
+            <div class="questList" id="main_collab"></div>
+          </div>
+
+          <div class="sectionBlock">
+            <div class="sectionHeader side">
+              <div>⚪️ 支線任務</div>
+              <div class="hint"> </div>
+            </div>
+            <div class="questList" id="sideList"></div>
+          </div>
+
+          <div class="sectionBlock">
+            <div class="sectionHeader hidden">
+              <div>⚫️ 隱藏任務</div>
+              <div class="hint">？？？</div>
+            </div>
+            <div class="questList" id="hiddenList"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- MIDDLE -->
+      <div class="card">
+        <div class="head">
+          <div class="sectionTitle">完成樣貌｜Showcase</div>
+          <div class="badge" id="selectedBadge">—</div>
+        </div>
+        <div class="body" id="showcaseBox"></div>
+      </div>
+
+      <!-- RIGHT -->
+      <div class="card col-right">
+        <div class="head">
+          <div class="sectionTitle">賽季旅程｜Season Journey</div>
+          <div class="badge"> </div>
+        </div>
+        <div class="body" id="journeyBox"></div>
+      </div>
+    </div>
+
+    <footer>
+      <div>ⓒWBS Production 2026 — The Audio Architect · Taipei</div>
+      <div style="display:flex; gap:8px; flex-wrap:wrap">
+        <span class="badge">Music Production</span>
+        <span class="badge">Melodic Techno</span>
+        <span class="badge">Bass Music</span>
+      </div>
+    </footer>
+  </div>
+
+  <!-- Loot Modal -->
+  <div class="modalBack" id="modalBack">
+    <div class="modal">
+      <div class="mhead">
+        <div>
+          <div style="font-weight:650; font-size:15px">Loot Drop</div>
+          <div class="muted" style="margin-top:4px; font-size:15px" id="lootSubtitle">隨機抽出 3 項獎勵</div>
+        </div>
+        <button id="closeModal">關閉</button>
+      </div>
+      <div class="mbody" id="lootItems"></div>
+    </div>
+  </div>
+</div>>
+
+<script>
+  const STORAGE_KEY = "zc_season_2026_html_v3";
+
+  const PRESET_REWARDS = [
+    "Hazard Orange Glow Badge",
+    "Bioluminescent Purple Frame",
+    "Taipei Coordinates Title",
+    "World Keyword Booster (+10 words)",
+    "Mixtape Cover Template",
+    "Reels Hook Line Pack (x5)",
+    "Sound Relic Slot (+2)",
+    "Studio Light Preset",
+    "Glitch Texture Overlay",
+    "Cinematic Fog LUT",
+    "Lore Naming Rule Upgrade",
+    "Collab Outreach Script",
+    "Foreign Label Pitch Sheet",
+    "Performance Ritual Checklist",
+    "Theatre Scene Prompt",
+    "Sample Pack Naming Stamp",
+    "Audience Shelter Caption Pack",
+    "World State Tag Set",
+    "Energy Core Progress Charm",
+    "Archive Index Card",
+    "Encrypted Signal Token (jyi4uqp3)"
+  ];
+
+  const QUESTS = [
+  
+  //主線任務（一）世界觀建構
+    { id:"main_world_1", type:"main_world", title:"世界觀陳述（0/1）",
+      description:"完成世界的核心敘述，定義整體色調、氛圍與視覺方向。" },
+
+    { id:"main_world_2", type:"main_world", title:"世界語彙採集（0/100）",
+      description:"採集並整理構成此世界的關鍵詞彙，作為後續所有創作的語言基礎。" },
+
+    { id:"main_world_3", type:"main_world", title:"聲音殘骸重組（0/50）",
+      description:"以原創聲音片段為素材，建立此世界的聲音質地與低頻結構。" },
+
+    { id:"main_world_4", type:"main_world", title:"視覺地景建構（0/20）",
+      description:"定義定義 3 種核心視覺場景，並實際應用於圖文內容中。" },
+
+    { id:"main_world_5", type:"main_world", title:"聲音建築師（0/3）",
+      description:"拍攝世界創建者形象照，用於識別與對外溝通。" },
+ 
+  //主線任務（二）EP發行
+    { id:"main_ep_1", type:"main_ep", title:"EP製作（0/6）",
+      description:"ID " },
+
+  //主線任務（三）核心建設
+    { id:"main_build_1", type:"main_build", title:"研發中心建設（0/1）",
+      description:"完成工作室分部據點的功能性裝潢與配置。 " },
+
+    { id:"main_build_2", type:"main_build", title:"兵工廠建設（0/1）",
+      description:"建構一處可長期使用、可反覆拍攝的固定片場。" },
+
+  //主線任務（四）低頻檔案館 
+    { id:"main_dj_1", type:"main_dj", title:"陳列（0/8）",
+      description:"於 YouTube 發佈具世界觀敘事的 DJ Mixtape。" },
+
+    { id:"main_dj_2", type:"main_dj", title:"展示（0/6）",
+      description:"在不同場域完成經過設計的現場演出紀錄。" },
+
+  //主線任務（五） 世界探索
+    { id:"main_collab_1", type:"main_collab", title:"聲音多樣性（0/6）",
+      description:"與藝人／歌手完成具實際作品呈現的合作。" },
+
+    { id:"main_collab_2", type:"main_collab", title:"迷霧驅散（0/1）",
+      description:"於國外廠牌完成一次正式發行。" },
+
+    { id:"main_collab_3", type:"main_collab", title:"世界不再孤獨（0/3）",
+      description:"完成 Remix 或跨界合作，建立外部連結節點。" },
+
+  //支線任務
+    { id:"q01", type:"side", title:"▸ 人類痕跡捕捉（0/40）",
+      description:"「記錄系統創建者的日常偏差值，使世界保持人性與溫度。」將興趣與愛好融入世界敘事，每週發布人類痕跡貼文。" },
+
+    { id:"q02", type:"side", title:"▸ 世界工具鍛造（0/1）",
+      description:"「將個人聲音語言轉化為可被他人使用的工具。」製作並完成 Z.CHUAN Sample Pack。" },
+
+    { id:"q03", type:"side", title:"▸ 電子音樂劇計畫（0/1）＊資料片任務",
+      description:"「結合音樂、敘事、角色與舞台的完整實驗。 」完成一場具明確劇情線、以音樂為核心敘事的電子音樂劇 （此任務完成將開放資料片區域）" },
+ 
+  //隱藏任務
+    { id:"q-hidden-jyi4uqp3", type:"hidden", title:"cock6y7-jyi4uqp3",
+      description:"隱藏任務，待解密。（Encrypted Signal）" },
+  ];
+
+  const JOURNEY = [
+    { id:"c1", title:"章節 I - 世界初始化", goals:[
+      "完成世界宣言與語彙採集","累計發布 5 則施工紀錄","使世界首次進入可辨識狀態"
+    ]},
+    { id:"c2", title:"章節 II - 基礎模組部署", goals:[
+      "聲音殘骸重組累計達 10 件","完成 3 組視覺地景定義","場域演出首度運轉測試"
+    ]},
+    { id:"c3", title:"章節 III - 核心建設啟動", goals:[
+      "研發中心與兵工廠建設進度達 50%","累計達成 3 位合作藝術家連線","啟用低頻檔案館並新增 1 件初始陳列"
+    ]},
+    { id:"c4", title:"章節 IV - 系統穩定化", goals:[
+      "聲音殘骸重組累計達 30 件","累計完成 3 組形象照","進行 10 次人類痕跡捕捉" 
+    ]},
+    { id:"c5", title:"章節 V - 世界探索", goals:[
+      "完成 1 次國外廠牌的正式發行","達成 6 位合作藝術家連線","建立 1 個 Remix 或跨界合作外部節點"
+    ]},
+    { id:"c6", title:"章節 VI - 高密度運作", goals:[
+      "聲音殘骸重組累計達 50 件","累計 6 次場域演出運轉 ","完成研發中心與兵工廠建設"
+    ]},
+    { id:"c7", title:"章節 VII - 封存與發佈", goals:[
+      "低頻檔案館擴充完成","世界工具鍛造完成","發行 EP 作為本賽季最終進度存檔"
+    ]},
+  ];
+
+  const state = {
+    selectedId: QUESTS[0].id,
+    completed: {},
+    showcase: {},       // { [questId]: { text, audioUrl, videoUrl, links:[{name,url}] } }
+    journeyChecks: {},  // { [chapterId]: [bool...] }
+    chapterLootHistory: {} // { [chapterId]: [{at, items}] }
+  };
+
+  function $(id){ return document.getElementById(id); }
+  function escapeHtml(str){
+    return (str||"").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;");
+  }
+  function uniquePick(arr, k){
+    const copy = arr.slice(), out=[];
+    while(out.length<k && copy.length){
+      const idx = Math.floor(Math.random()*copy.length);
+      out.push(copy.splice(idx,1)[0]);
+    }
+    return out;
+  }
+  function getYouTubeEmbed(url){
+    if(!url) return null;
+    try{
+      const u = new URL(url);
+      const host = u.hostname.replace("www.","");
+      if(host==="youtu.be"){
+        const id = u.pathname.replace("/","");
+        return id ? `https://www.youtube.com/embed/${id}` : null;
+      }
+      if(host==="youtube.com" || host==="m.youtube.com"){
+        const id = u.searchParams.get("v");
+        return id ? `https://www.youtube.com/embed/${id}` : null;
+      }
+      return null;
+    }catch{ return null; }
+  }
+  function ensureShowcase(qid){
+    if(!state.showcase[qid]){
+      state.showcase[qid] = { text:"", audioUrl:"", videoUrl:"", links:[] };
+    } else {
+      state.showcase[qid].links = state.showcase[qid].links || [];
+    }
+    return state.showcase[qid];
+  }
+  function ensureJourneyChapter(chId, goalLen){
+    if(!state.journeyChecks[chId] || state.journeyChecks[chId].length !== goalLen){
+      state.journeyChecks[chId] = Array(goalLen).fill(false);
+    }
+    return state.journeyChecks[chId];
+  }
+
+  function load(){
+    try{
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if(!raw) return;
+      const s = JSON.parse(raw);
+      Object.assign(state, s || {});
+    }catch{}
+  }
+  function save(){
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+  }
+
+  function renderQuestCompletion(){
+    const done = QUESTS.filter(q=>state.completed[q.id]).length;
+    $("doneCount").textContent = done;
+    $("questCount").textContent = QUESTS.length;
+    $("questBar").style.width = ((done/QUESTS.length)*100).toFixed(0) + "%";
+  }
+
+  // function questItemHTML(q){
+  //   const done = !!state.completed[q.id];
+  //   const active = state.selectedId === q.id;
+  //   const check = done ? "✅" : "⬜";
+  //   return `
+  //     <div class="quest ${active?'active':''}" data-qid="${q.id}">
+  //       <div class="check" data-toggle="${q.id}" title="切換完成狀態">${check}</div>
+  //       <div class="meta">
+  //         <div class="t"><span>${escapeHtml(q.title)}</span></div>
+  //         <div class="d">${escapeHtml(q.description)}</div>
+  //       </div>
+  //     </div>
+  //   `;
+  // }
+
+  function bindQuestListClicks(container){
+    container.querySelectorAll(".quest").forEach(el=>{
+      el.addEventListener("click", (e)=>{
+        const qid = el.getAttribute("data-qid");
+        const toggle = e.target && e.target.getAttribute && e.target.getAttribute("data-toggle");
+        if(toggle){
+          state.completed[toggle] = !state.completed[toggle];
+          save(); renderAll();
+          return;
+        }
+        state.selectedId = qid;
+        save(); renderAll();
+      });
+    });
+  }
+
+  // function renderQuestLists(){
+  //   const main_world = QUESTS.filter(q=>q.type==="main_world");
+  //   const main_ep = QUESTS.filter(q=>q.type==="main_ep");
+  //   const main_build = QUESTS.filter(q=>q.type==="main_build");
+  //   const main_dj = QUESTS.filter(q=>q.type==="main_dj");
+  //   const main_collab = QUESTS.filter(q=>q.type==="main_collab");
+  //   const side = QUESTS.filter(q=>q.type==="side");
+  //   const hidden = QUESTS.filter(q=>q.type==="hidden");
+
+  //   $("main_world").innerHTML = main_world.map(questItemHTML).join("");
+  //   $("main_ep").innerHTML = main_ep.map(questItemHTML).join("");
+  //   $("main_build").innerHTML = main_build.map(questItemHTML).join("");
+  //   $("main_dj").innerHTML = main_dj.map(questItemHTML).join("");
+  //   $("main_collab").innerHTML = main_collab.map(questItemHTML).join("");
+  //   $("sideList").innerHTML = side.map(questItemHTML).join("");
+  //   $("hiddenList").innerHTML = hidden.map(questItemHTML).join("");
+
+  //   bindQuestListClicks($("main_world"));
+  //   bindQuestListClicks($("main_ep"));
+  //   bindQuestListClicks($("main_build"));
+  //   bindQuestListClicks($("main_dj"));
+  //   bindQuestListClicks($("main_collab"));
+  //   bindQuestListClicks($("sideList"));
+  //   bindQuestListClicks($("hiddenList"));
+  // }
+
+  function renderShowcase(){
+    const q = QUESTS.find(x=>x.id===state.selectedId) || QUESTS[0];
+    $("selectedBadge").textContent = q.title.slice(0, 16) + (q.title.length>16 ? "…" : "");
+    const sc = ensureShowcase(q.id);
+    const yt = getYouTubeEmbed(sc.videoUrl);
+
+    const audioBlock = sc.audioUrl ? `
+      <div class="mediaBox">
+        <div class="mediaHead">
+          <span class="badge">Audio</span>
+          <a class="truncate" href="${escapeHtml(sc.audioUrl)}" target="_blank" rel="noreferrer">${escapeHtml(sc.audioUrl)}</a>
+        </div>
+        <audio controls src="${escapeHtml(sc.audioUrl)}"></audio>
+      </div>` : "";
+
+    const videoBlock = sc.videoUrl ? `
+      <div class="mediaBox">
+        <div class="mediaHead">
+          <span class="badge">Video</span>
+          <a class="truncate" href="${escapeHtml(sc.videoUrl)}" target="_blank" rel="noreferrer">${escapeHtml(sc.videoUrl)}</a>
+        </div>
+        ${
+          yt
+          ? `<div style="border:1px solid var(--border); border-radius:14px; overflow:hidden; background:#000">
+               <iframe width="100%" height="360" src="${yt}" title="YouTube" frameborder="0"
+                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+             </div>`
+          : `<video controls src="${escapeHtml(sc.videoUrl)}"></video>`
+        }
+      </div>` : "";
+
+    const linksHTML = (sc.links||[]).map((lnk, idx)=>`
+      <div class="linkItem">
+        <div class="left">
+          <div class="name">${escapeHtml(lnk.name || "External Link")}</div>
+          <div class="url">${escapeHtml(lnk.url || "")}</div>
+        </div>
+        <div style="display:flex; gap:8px; align-items:center">
+          <a class="badge" href="${escapeHtml(lnk.url||"#")}" target="_blank" rel="noreferrer">Open</a>
+          <button class="miniBtn" data-del-link="${idx}">刪除</button>
+        </div>
+      </div>
+    `).join("");
+
+    $("showcaseBox").innerHTML = `
+      <div class="mediaBox" style="margin-top:0">
+        <div style="font-weight:650; font-size:15px">${escapeHtml(q.title)}</div>
+        <div class="muted" style="margin-top:6px; line-height:2">${escapeHtml(q.description)}</div>
+        <div style="display:flex; gap:8px; flex-wrap:wrap; margin-top:10px">
+          <span class="badge">${state.completed[q.id] ? "已完成" : "未完成"}</span>
+        </div>
+      </div>
+
+      <!-- removed the label line; keep textarea for narrative -->
+      <div style="margin-top:14px">
+        <textarea id="scText" placeholder="Description">${escapeHtml(sc.text)}</textarea>
+      </div>
+
+      <div class="two" style="margin-top:12px">
+        <div>
+          <!-- <label>Audio</label>-->
+          <input id="scAudio" placeholder="Audio URL" value="${escapeHtml(sc.audioUrl)}" />
+          <div class="muted small" style="margin-top:6px"></div>
+        </div>
+        <div>
+          <!-- <label>Video</label>-->
+          <input id="scVideo" placeholder="Video URL" />
+          <div class="muted small" style="margin-top:6px"></div>
+        </div>
+      </div>
+
+      ${audioBlock}
+      ${videoBlock}
+
+      <div class="mediaBox">
+        
+
+        <div class="linkRow">
+          <input id="linkName" placeholder="Item" />
+          <input id="linkUrl" placeholder="URL" />
+          <button id="addLinkBtn" class="miniBtn">新增</button>
+        </div>
+
+        <div id="linkList">${linksHTML || `<div class="muted" style="margin-top:10px"></div>`}</div>
+      </div>
+
+      <div class="mediaBox">
+        <div class="row">
+          <div class="muted"> </div>
+          <button id="toggleSelected">${state.completed[q.id] ? "標記為未完成" : "標記為完成"}</button>
+        </div>
+      </div>
+    `;
+
+    $("scText").addEventListener("input", (e)=>{ sc.text = e.target.value; save(); });
+    $("scAudio").addEventListener("input", (e)=>{ sc.audioUrl = e.target.value.trim(); save(); });
+    $("scVideo").addEventListener("input", (e)=>{ sc.videoUrl = e.target.value.trim(); save(); });
+
+    $("toggleSelected").addEventListener("click", ()=>{
+      state.completed[q.id] = !state.completed[q.id];
+      save(); renderAll();
+    });
+
+    $("addLinkBtn").addEventListener("click", ()=>{
+      const name = ($("linkName").value || "").trim();
+      const url = ($("linkUrl").value || "").trim();
+      if(!url){ alert("請輸入 URL"); return; }
+      sc.links = sc.links || [];
+      sc.links.push({ name: name || "External Link", url });
+      $("linkName").value = "";
+      $("linkUrl").value = "";
+      save(); renderShowcase();
+    });
+
+    $("linkList").querySelectorAll("[data-del-link]").forEach(btn=>{
+      btn.addEventListener("click", ()=>{
+        const idx = Number(btn.getAttribute("data-del-link"));
+        sc.links.splice(idx, 1);
+        save(); renderShowcase();
+      });
+    });
+  }
+
+  function renderJourney(){
+    const box = $("journeyBox");
+    box.innerHTML = JOURNEY.map(ch=>{
+      const checks = ensureJourneyChapter(ch.id, ch.goals.length);
+      const doneCount = checks.filter(Boolean).length;
+      const chapterDone = doneCount === ch.goals.length;
+
+      const goalsHTML = ch.goals.map((g, i)=>{
+        const done = !!checks[i];
+        return `
+          <div class="goal ${done?'done':''}" data-ch="${ch.id}" data-idx="${i}">
+            <div class="gcheck" title="切換完成">${done ? "✓" : ""}</div>
+            <div class="gtext">${escapeHtml(g)}</div>
+          </div>
+        `;
+      }).join("");
+
+      return `
+        <div class="chapter">
+          <div class="chapterTop">
+            <div>
+              <div class="chapterTitle">${escapeHtml(ch.title)}</div>
+              <div class="muted" style="margin-top:6px">${doneCount}/${ch.goals.length} 已完成</div>
+              <div class="progress" style="margin-top:10px"><div style="width:${(doneCount/ch.goals.length)*100}%"></div></div>
+            </div>
+            <div style="display:flex; flex-direction:column; gap:8px; align-items:flex-end">
+              <span class="badge">${chapterDone ? "章節完成" : "進行中"}</span>
+              <button class="miniBtn" data-loot-ch="${ch.id}" ${chapterDone ? "" : "disabled"}>🎁 章節禮包</button>
+            </div>
+          </div>
+          <div style="margin-top:10px">${goalsHTML}</div>
+        </div>
+      `;
+    }).join("");
+
+    box.querySelectorAll(".goal").forEach(el=>{
+      el.addEventListener("click", ()=>{
+        const chId = el.getAttribute("data-ch");
+        const idx = Number(el.getAttribute("data-idx"));
+        const arr = ensureJourneyChapter(chId, JOURNEY.find(x=>x.id===chId).goals.length);
+        arr[idx] = !arr[idx];
+        save(); renderJourney();
+      });
+    });
+
+    box.querySelectorAll("[data-loot-ch]").forEach(btn=>{
+      btn.addEventListener("click", ()=>{
+        const chId = btn.getAttribute("data-loot-ch");
+        openChapterLoot(chId);
+      });
+    });
+  }
+
+  function openChapterLoot(chId){
+    const items = uniquePick(PRESET_REWARDS, 3);
+    if(!state.chapterLootHistory[chId]) state.chapterLootHistory[chId] = [];
+    state.chapterLootHistory[chId].unshift({ at: new Date().toISOString(), items });
+    state.chapterLootHistory[chId] = state.chapterLootHistory[chId].slice(0, 10);
+    save();
+
+    const chapterTitle = (JOURNEY.find(c=>c.id===chId)?.title) || "Chapter Loot";
+    $("lootSubtitle").textContent = `${chapterTitle}｜隨機抽出 3 項獎勵`;
+
+    $("lootItems").innerHTML = `
+      <div class="muted">本次掉落：</div>
+      ${items.map(it=>`<div class="lootItem"><div>${escapeHtml(it)}</div><span class="badge">Reward</span></div>`).join("")}
+      <div class="mediaBox">
+        <div style="font-weight:650; font-size:15px">本章節抽取紀錄（最近 10 次）</div>
+        ${(state.chapterLootHistory[chId]||[]).map(h=>{
+          const t = new Date(h.at).toLocaleString();
+          const lis = h.items.map(x=>`<div class="small">• ${escapeHtml(x)}</div>`).join("");
+          return `<div class="mediaBox" style="margin-top:10px">
+              <div class="muted">${escapeHtml(t)}</div>
+              <div style="margin-top:8px">${lis}</div>
+            </div>`;
+        }).join("")}
+      </div>
+    `;
+
+    $("modalBack").style.display = "flex";
+  }
+
+  function closeModal(){ $("modalBack").style.display = "none"; }
+
+  function renderAll(){
+    renderQuestCompletion();
+    renderQuestLists();
+    renderShowcase();
+    renderJourney();
+  }
+
+  function renderQuestLists(){ //2
+    const main_world = QUESTS.filter(q=>q.type==="main_world");
+    const main_ep = QUESTS.filter(q=>q.type==="main_ep");
+    const main_build = QUESTS.filter(q=>q.type==="main_build");
+    const main_dj = QUESTS.filter(q=>q.type==="main_dj");
+    const main_collab = QUESTS.filter(q=>q.type==="main_collab");
+    const side = QUESTS.filter(q=>q.type==="side");
+    const hidden = QUESTS.filter(q=>q.type==="hidden");
+
+    $("main_world").innerHTML = main_world.map(questItemHTML).join("");
+    $("main_ep").innerHTML = main_ep.map(questItemHTML).join("");
+    $("main_build").innerHTML = main_build.map(questItemHTML).join("");
+    $("main_dj").innerHTML = main_dj.map(questItemHTML).join("");
+    $("main_collab").innerHTML = main_collab.map(questItemHTML).join("");
+    $("sideList").innerHTML = side.map(questItemHTML).join("");
+    $("hiddenList").innerHTML = hidden.map(questItemHTML).join("");
+
+    bindQuestListClicks($("main_world"));
+    bindQuestListClicks($("main_ep"));
+    bindQuestListClicks($("main_build"));
+    bindQuestListClicks($("main_dj"));
+    bindQuestListClicks($("main_collab"));
+    bindQuestListClicks($("sideList"));
+    bindQuestListClicks($("hiddenList"));
+  }
+
+  function questItemHTML(q){
+    const done = !!state.completed[q.id];
+    const active = state.selectedId === q.id;
+    const check = done ? "✅" : "⬜";
+    return `
+      <div class="quest ${active?'active':''}" data-qid="${q.id}">
+        <div class="check" data-toggle="${q.id}" title="切換完成狀態">${check}</div>
+        <div class="meta">
+          <div class="t"><span>${escapeHtml(q.title)}</span></div>
+          <div class="d">${escapeHtml(q.description)}</div>
+        </div>
+      </div>
+    `;
+  }
+
+  function bindQuestListClicks(container){
+    container.querySelectorAll(".quest").forEach(el=>{
+      el.addEventListener("click", (e)=>{
+        const qid = el.getAttribute("data-qid");
+        const toggle = e.target && e.target.getAttribute && e.target.getAttribute("data-toggle");
+        if(toggle){
+          state.completed[toggle] = !state.completed[toggle];
+          save(); renderAll();
+          return;
+        }
+        state.selectedId = qid;
+        save(); renderAll();
+      });
+    });
+  }
+
+  $("closeModal").addEventListener("click", closeModal);
+  $("modalBack").addEventListener("click", (e)=>{
+    if(e.target === $("modalBack")) closeModal();
+  });
+
+  $("resetBtn").addEventListener("click", ()=>{
+    if(!confirm("確定要重置所有進度與紀錄？")) return;
+    localStorage.removeItem(STORAGE_KEY);
+    location.reload();
+  });
+
+  load();
+  JOURNEY.forEach(ch=>ensureJourneyChapter(ch.id, ch.goals.length));
+  renderAll();
+
+
+  let READ_ONLY = false;
+
+  /* =================================================
+     嘗試讀取 progress.json（GitHub Pages）
+     ================================================= */
+  async function loadProgressJSON(){
+    try{
+      const res = await fetch("progress.json",{cache:"no-store"});
+      if(!res.ok) throw new Error();
+      const data = await res.json();
+      Object.assign(state, data);
+      READ_ONLY = true;
+      document.getElementById("roBadge").style.display="block";
+    }catch{
+      READ_ONLY = false;
+    }
+  }
+
+  /* =================================================
+     LocalStorage（只在非唯讀）
+     ================================================= */
+  function loadLocal(){
+    if(READ_ONLY) return;
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if(raw){
+      try{ Object.assign(state, JSON.parse(raw)); }catch{}
+    }
+  }
+  function saveLocal(){
+    if(READ_ONLY) return;
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+  }
+
+  /* =================================================
+     匯出 progress.json
+     ================================================= */
+  document.getElementById("exportBtn").onclick=()=>{
+    const blob = new Blob(
+      [JSON.stringify(state,null,2)],
+      {type:"application/json"}
+    );
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = "progress.json";
+    a.click();
+    URL.revokeObjectURL(a.href);
+  };
+
+  /* =================================================
+     鎖定所有互動
+     ================================================= */
+  function lockUI(){
+    document.querySelectorAll("input,textarea,button").forEach(el=>{
+      if(el.id==="exportBtn") return;
+      el.disabled=true;
+    });
+    document.querySelectorAll(".quest,.goal").forEach(el=>{
+      el.style.pointerEvents="none";
+      el.style.opacity="0.6";
+    });
+  }
+
+  /* =================================================
+     初始化（順序很重要）
+     ================================================= */
+  (async function init(){
+    await loadProgressJSON();
+    loadLocal();
+
+    // ⚠️ 這裡呼叫你原本 v1.2 的 renderAll()
+    if(typeof renderAll==="function"){
+      renderAll();
+    }
+
+    if(READ_ONLY){
+      lockUI();
+    }
+  })();
+  </script>
+  </body>
+  </html>
