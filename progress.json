@@ -1,12 +1,14 @@
 {
-  "selectedId": "main_world_1",
+  "selectedId": "q03",
   "completed": {
     "mainquest-core": false,
     "q01-lore-foundation": false,
     "q02-sound-construction": false,
     "main_ep_1": false,
     "main_world_2": false,
-    "main_world_1": true
+    "main_world_1": false,
+    "main_world_3": false,
+    "main_build_1": false
   },
   "showcase": {
     "mainquest-core": {
@@ -98,11 +100,35 @@
       "audioUrl": "",
       "videoUrl": "",
       "links": []
+    },
+    "q02": {
+      "text": "",
+      "audioUrl": "",
+      "videoUrl": "",
+      "links": []
+    },
+    "main_collab_2": {
+      "text": "",
+      "audioUrl": "",
+      "videoUrl": "",
+      "links": []
+    },
+    "main_collab_3": {
+      "text": "",
+      "audioUrl": "",
+      "videoUrl": "",
+      "links": []
+    },
+    "q01": {
+      "text": "",
+      "audioUrl": "",
+      "videoUrl": "",
+      "links": []
     }
   },
   "journeyChecks": {
     "c1": [
-      true,
+      false,
       false,
       false
     ],
@@ -132,7 +158,6 @@
       false
     ],
     "c7": [
-      false,
       false,
       false,
       false
