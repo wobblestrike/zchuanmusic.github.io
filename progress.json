@@ -1,34 +1,7 @@
 {
-  "selectedId": "q03",
-  "completed": {
-    "mainquest-core": false,
-    "q01-lore-foundation": false,
-    "q02-sound-construction": false,
-    "main_ep_1": false,
-    "main_world_2": false,
-    "main_world_1": false,
-    "main_world_3": false,
-    "main_build_1": false
-  },
+  "selectedId": "main_world_3",
+  "completed": {},
   "showcase": {
-    "mainquest-core": {
-      "text": "",
-      "audioUrl": "",
-      "videoUrl": "",
-      "links": []
-    },
-    "q01-lore-foundation": {
-      "text": "",
-      "audioUrl": "",
-      "videoUrl": "",
-      "links": []
-    },
-    "": {
-      "text": "",
-      "audioUrl": "",
-      "videoUrl": "",
-      "links": []
-    },
     "main_world_1": {
       "text": "",
       "audioUrl": "",
@@ -41,85 +14,18 @@
       "videoUrl": "",
       "links": []
     },
-    "main_ep_1": {
-      "text": "",
-      "audioUrl": "",
-      "videoUrl": "",
-      "links": []
-    },
     "main_world_3": {
       "text": "",
       "audioUrl": "",
       "videoUrl": "",
-      "links": []
+      "links": [
+        {
+          "name": "累計重組成果",
+          "url": "https://www.instagram.com/stories/highlights/17908678404162469/"
+        }
+      ]
     },
     "main_world_4": {
-      "text": "",
-      "audioUrl": "",
-      "videoUrl": "",
-      "links": []
-    },
-    "main_world_5": {
-      "text": "",
-      "audioUrl": "",
-      "videoUrl": "",
-      "links": []
-    },
-    "main_build_1": {
-      "text": "",
-      "audioUrl": "",
-      "videoUrl": "",
-      "links": []
-    },
-    "main_build_2": {
-      "text": "",
-      "audioUrl": "",
-      "videoUrl": "",
-      "links": []
-    },
-    "main_collab_1": {
-      "text": "",
-      "audioUrl": "",
-      "videoUrl": "",
-      "links": []
-    },
-    "main_dj_2": {
-      "text": "",
-      "audioUrl": "",
-      "videoUrl": "",
-      "links": []
-    },
-    "main_dj_1": {
-      "text": "",
-      "audioUrl": "",
-      "videoUrl": "",
-      "links": []
-    },
-    "q03": {
-      "text": "",
-      "audioUrl": "",
-      "videoUrl": "",
-      "links": []
-    },
-    "q02": {
-      "text": "",
-      "audioUrl": "",
-      "videoUrl": "",
-      "links": []
-    },
-    "main_collab_2": {
-      "text": "",
-      "audioUrl": "",
-      "videoUrl": "",
-      "links": []
-    },
-    "main_collab_3": {
-      "text": "",
-      "audioUrl": "",
-      "videoUrl": "",
-      "links": []
-    },
-    "q01": {
       "text": "",
       "audioUrl": "",
       "videoUrl": "",
@@ -130,7 +36,7 @@
     "c1": [
       false,
       false,
-      false
+      true
     ],
     "c2": [
       false,
@@ -163,24 +69,5 @@
       false
     ]
   },
-  "chapterLootHistory": {
-    "c1": [
-      {
-        "at": "2026-01-20T06:50:36.327Z",
-        "items": [
-          "Lore Naming Rule Upgrade",
-          "Sound Relic Slot (+2)",
-          "World Keyword Booster (+10 words)"
-        ]
-      },
-      {
-        "at": "2026-01-20T06:50:32.051Z",
-        "items": [
-          "Hazard Orange Glow Badge",
-          "World Keyword Booster (+10 words)",
-          "Bioluminescent Purple Frame"
-        ]
-      }
-    ]
-  }
+  "chapterLootHistory": {}
 }
