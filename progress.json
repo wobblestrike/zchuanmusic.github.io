@@ -15,7 +15,7 @@
       "links": []
     },
     "main_world_3": {
-      "text": "",
+      "text": "260209 DAY 9 (2/50)\n260205 DAY 5 (1/50)",
       "audioUrl": "",
       "videoUrl": "",
       "links": [
@@ -26,6 +26,12 @@
       ]
     },
     "main_world_4": {
+      "text": "",
+      "audioUrl": "",
+      "videoUrl": "",
+      "links": []
+    },
+    "mainquest-core": {
       "text": "",
       "audioUrl": "",
       "videoUrl": "",
