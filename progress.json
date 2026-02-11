@@ -15,7 +15,7 @@
       "links": []
     },
     "main_world_3": {
-      "text": "260209 DAY 9 (2/50)\n260205 DAY 5 (1/50)",
+      "text": "260210 DAY 10 (3/50)\n260209 DAY 9 (2/50)\n260205 DAY 5 (1/50)",
       "audioUrl": "",
       "videoUrl": "",
       "links": [
@@ -41,7 +41,7 @@
   "journeyChecks": {
     "c1": [
       false,
-      false,
+      true,
       true
     ],
     "c2": [
